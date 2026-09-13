@@ -1,0 +1,6 @@
+openapi: 3.1.0
+info:
+  title: Github CRUD API
+  description: This API allows for CRUD for Github Issues.
+  version: 0.0.1
+
