@@ -1,7 +1,7 @@
 
 from flask import Blueprint, jsonify, request
 from backend.helpers.validator import validate_issue
-from backend.services.github_service import github_create_issue
+from backend.services.github_service import github_create_issue, github_get_issues
 
 
 #Blue print for routes
@@ -46,22 +46,17 @@ def create_issue():
         return jsonify({"error": "Github request failed"}), response.status_code
         
 
-    
 
     
-
-    
-
-
-        
-    
-    
-    
-
 #list of issues 
 @issues_api.route("/issues", methods=["GET"])
 def list_issues():
-    return "list of issues"
+    issues = github_get_issues()
+
+    if issues.status_code == 200:
+        return jsonify(issues), 200
+    else:
+        return jsonify({"error": "Couldnt retrieve issues"}), issues.status_code
 
 
 #add other related routes below
