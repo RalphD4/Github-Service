@@ -4,6 +4,7 @@ from backend.helpers.validator import validate_issue
 from backend.services.github_service import github_create_issue, github_get_issues
 
 
+
 #Blue print for routes
 issues_api = Blueprint("issues", __name__)
 
@@ -24,16 +25,16 @@ def create_issue():
 
     #extract fields if correct status code
     if response.status_code == 201:
-        github_response = response.json()
+        github_issue = response.json()
         issue = {
-            "number": github_response["number"],
-            "htlml_url": github_response["html_url"],
-            "state": github_response["state"],
-            "title": github_response["title"],
-            "body": github_response["body"],
-            "labels": github_response["labels"],
-            "created_at": github_response["created_at"],
-            "updated_at": github_response["updated_at"]
+            "number": github_issue["number"],
+            "htlm_url": github_issue["html_url"],
+            "state": github_issue["state"],
+            "title": github_issue["title"],
+            "body": github_issue["body"],
+            "labels": github_issue["labels"],
+            "created_at": github_issue["created_at"],
+            "updated_at": github_issue["updated_at"]
         }
         return jsonify(issue), 201, {
             "Location": f"/issues/{issue['number']}"
@@ -48,15 +49,47 @@ def create_issue():
 
 
     
-#list of issues 
+#list of issues
 @issues_api.route("/issues", methods=["GET"])
 def list_issues():
-    issues = github_get_issues()
+    #get the parameters of the request
+    state = request.args.get("state")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 30, type=int)
 
-    if issues.status_code == 200:
+    #build the params
+    params = {
+        "state": state,
+        "page": page,
+        "per_page": per_page
+    }
+
+    #get the issues using service function
+    github_issues, status_code = github_get_issues(params)
+
+    #if valid, for each issue, build the dictionary format and add to final array
+    if status_code == 200:
+        
+        issues = []
+        for github_issue in github_issues:
+            issue = {
+                "number": github_issue ["number"],
+                "htlml_url": github_issue["html_url"],
+                "state": github_issue["state"],
+                "title": github_issue["title"],
+                "body": github_issue["body"],
+                "labels": github_issue["labels"],
+                "created_at": github_issue["created_at"],
+                "updated_at": github_issue["updated_at"]
+            }
+            issues.append(issue)
+
+
+
         return jsonify(issues), 200
     else:
-        return jsonify({"error": "Couldnt retrieve issues"}), issues.status_code
+        return jsonify({"error": "Couldnt retrieve issues"}), status_code
+
 
 
 #add other related routes below

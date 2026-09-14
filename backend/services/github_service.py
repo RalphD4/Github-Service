@@ -1,21 +1,24 @@
 
 from flask import current_app
-import requests
+import requests, os
+
 
 #github configurations
-token = current_app.config["GITHUB_TOKEN"]
-owner = current_app.config["GITHUB_OWNER"]
-repo = current_app.config["GITHUB_REPO"]
+TOKEN = os.getenv("GITHUB_TOKEN")
+OWNER = os.getenv("GITHUB_OWNER")
+REPO = os.getenv("GITHUB_REPO")
+
+
 
 def github_create_issue(data):
     
     #construct the url
-    url = f"https://api.github.com/repos/{owner}/{repo}/issues"
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues"
 
     #headers
     headers = {
         "Accept": "application/vnd.github+json",
-        "Authorization": f"Bearer {token}",
+        "Authorization": f"Bearer {TOKEN}",
         "X-GitHub-Api-Version": "2026-03-10"
     }
 
@@ -26,18 +29,19 @@ def github_create_issue(data):
     return response
 
 
-def github_get_issues():
+def github_get_issues(params=None):
     #construct the url
-    url = f"https://api.github.com/repos/{owner}/{repo}/issues"
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues"
 
     headers = {
         "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {TOKEN}",
         "X-GitHub-Api-Version": "2026-03-10"
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
 
-    return response
+    return response.json(), response.status_code
 
 
 
