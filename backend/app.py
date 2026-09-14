@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint
+from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -25,8 +25,12 @@ app.register_blueprint(webhook_api)
 def home():
     return "Home Page"
 
+@app.route("/healthz")
+def healthz():
+    return jsonify({"status": "ok"}), 200
 
-#start the app, change to port listed on assignment later
+
+#start the app
 if __name__ == "__main__":
     app.run(port=8000)
 
