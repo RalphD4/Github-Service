@@ -1,7 +1,7 @@
 
 from flask import Blueprint, jsonify, request
 from backend.helpers.validator import validate_issue
-from backend.services.github_service import github_create_issue, github_get_issues, github_get_one_issue, github_add_issue_comment
+from backend.services.github_service import github_create_issue, github_get_issues, github_get_one_issue, github_add_issue_comment, github_update_issue
 
 
 
@@ -17,7 +17,7 @@ def create_issue():
     
 
     #check data format
-    if not validate_issue(issue_data):
+    if not validate_issue(issue_data, "issue"):
         print("invalid json")
         return jsonify({"error": "Invalid payload"}), 400
 
@@ -124,7 +124,11 @@ def add_issue_comment(number):
 
     #receive the comment
     comment_data = request.get_json()
-
+    #check data format
+    if not validate_issue(comment_data, "comment"):
+        print("invalid json")
+        return jsonify({"error": "Invalid payload"}), 400
+    
     #response from github
     new_comment, status_code = github_add_issue_comment(number, comment_data)
 
@@ -145,17 +149,25 @@ def add_issue_comment(number):
 
 
 
-
-        
-
-    
-#ROUTES NOT COMPLETE
-
-
+#still in work
 #edit a specific issue  
 @issues_api.route("/issues/<int:number>", methods=["PATCH"])
 def edit_one_issue(number):
-    return 
+    #receive update
+    update_data = request.get_json()
+
+    #check validator for it later
+    if not validate_issue(update_data, "update"):
+        print("invalid json")
+        return jsonify({"error": "Invalid payload"}), 400
+
+
+    #response from github
+    update, status_code = github_update_issue(number, update_data)
+    if status_code == 200:
+        return jsonify(update), 200
+    else:
+        return jsonify({"error": "Invalid payload"}), status_code
 
 
 #optional /events route
