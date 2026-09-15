@@ -28,6 +28,10 @@ def validate_issue(data, type):
         case "update":
             if not data:
                 return False
+            if "title" in data and not isinstance(data["title"], str):
+                return False
+            if "body" in data and not isinstance(data["body"], str):
+                return False
             if "state" in data:
                 if data["state"] not in {"closed", "open"}:
                     return False
