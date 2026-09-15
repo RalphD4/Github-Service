@@ -1,35 +1,46 @@
-- How to run locally (Docker/Non-Docker)
-...
+# Github-Service
 
+## Setup
 
-- Env var setup and scopes used
-GITHUB_TOKEN = "......."
-GITHUB_OWNER = RalphD4
-GITHUB_REPO = Github-Service
-WEBHOOK_SECRET = shared_webhook_secret
+To run locally, go to the root of the directory then run pip install -r requirements.txt, set env vars, python -m backend.app.
 
+To run on Docker, run docker build -t github-service . then docker run --env-file .env -p 8000:8000 github-service.
 
-- API examples:
-- List of current issues (there should be x amount)
-http://127.0.0.1:8000/issues
+You need the following ENV VARS GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, WEBHOOK_SECRET, PORT. Your personal access token should have permissions to read and write on the target repository.
 
-- Create a new issue from cmd with curl, edit the "title" and "body" as needed
-curl -i -X POST http://127.0.0.1:8000/issues -H "Content-Type: application/json" -d '{"title":"Watch Tower Issue","body":"No light"}'
+## API examples
 
-- Create a new comment under an existing issue, edit the "body" field as needed
-curl -i -X POST http://127.0.0.1:8000/issues/3/comments -H "Content-Type:application/json" -d "{\"body\":\"fill in later\"}"
+To create an issue, do this:
+```bash
+curl -i -X POST http://127.0.0.1:8000/issues \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Watch Tower Issue","body":"No light"}'
+```
 
-- Updating an issue
-curl -i -X PATCH http://127.0.0.1:8000/issues/2 -H "Content-Type: application/json" -d "{\"body\":\"This is the updated body\"}"
+List your issues:
+```bash
+curl -i http://127.0.0.1:8000/issues
+```
 
+Update your issues:
+```bash
+curl -i -X PATCH http://127.0.0.1:8000/issues/3 \
+  -H "Content-Type: application/json" \
+  -d '{"state":"closed"}'
+```
 
-- healthz
-http://127.0.0.1:8000/healthz
+Add comments:
+```bash
+curl -i -X POST http://127.0.0.1:8000/issues/3/comments \
+  -H "Content-Type: application/json" \
+  -d '{"body":"fill in later"}'
+```
 
+Health check:
+```bash
+curl -i http://127.0.0.1:8000/healthz
+```
 
+## Webhooks
 
-- Webhook setup steps and redelivery instructions
-...
-
-- 
-
+To register the webhook, do so via Settings, then Webhooks.
