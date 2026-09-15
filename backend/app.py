@@ -32,5 +32,5 @@ def healthz():
 
 #start the app
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(port=int(os.getenv("PORT", 8000)))
 
