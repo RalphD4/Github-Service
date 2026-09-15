@@ -78,5 +78,21 @@ def github_add_issue_comment(number, comment):
     return response.json(), response.status_code
 
 
+def github_update_issue(number, data): 
+    #construct the url
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{number}"
+
+    #headers
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {TOKEN}",
+        "X-GitHub-Api-Version": "2026-03-10"
+    }
+
+    # Patch request to github
+    response = requests.patch(url, headers=headers, json=data) 
+
+
+    return response.json(), response.status_code
 
     
