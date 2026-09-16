@@ -14,7 +14,7 @@ To create an issue, do this:
 ```bash
 curl -i -X POST http://127.0.0.1:8000/issues \
   -H "Content-Type: application/json" \
-  -d '{"title":"Watch Tower Issue","body":"No light"}'
+  -d '{"title":"[ISSUE TITLE]","body":"[ISSUE DETAIL]"}'
 ```
 
 List your issues:
@@ -26,14 +26,14 @@ Update your issues:
 ```bash
 curl -i -X PATCH http://127.0.0.1:8000/issues/3 \
   -H "Content-Type: application/json" \
-  -d '{"state":"closed"}'
+  -d '{"state":"[ISSUE CLOSED]"}'
 ```
 
 Add comments:
 ```bash
 curl -i -X POST http://127.0.0.1:8000/issues/3/comments \
   -H "Content-Type: application/json" \
-  -d '{"body":"fill in later"}'
+  -d '{"body":"[ISSUE COMMENT]"}'
 ```
 
 Health check:
