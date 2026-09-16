@@ -1,5 +1,3 @@
-
-from flask import current_app
 import requests, os
 
 
@@ -55,7 +53,8 @@ def github_get_one_issue(number):
             "Authorization": f"Bearer {TOKEN}",
             "X-GitHub-Api-Version": "2026-03-10"
         }
-    
+
+    #get request
     response = requests.get(url, headers=headers)
     return response.json(), response.status_code
 

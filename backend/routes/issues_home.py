@@ -118,7 +118,7 @@ def get_one_issue(number):
         return jsonify({"error: Couldn't retrieve issue"})
 
 
-#adding a commenent to an issue
+#adding a comment to an issue
 @issues_api.route("/issues/<int:number>/comments", methods=["POST"])
 def add_issue_comment(number):
 
