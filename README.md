@@ -1,7 +1,3 @@
-# Github-Service
-at https://github.com/RalphD4/Github-Service
-
-
 ## Setup
 
 To run locally, go to the root of the directory then run pip install -r requirements.txt, set env vars, python -m backend.app.
