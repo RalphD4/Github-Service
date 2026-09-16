@@ -10,6 +10,20 @@ To run on Docker, run docker build -t github-service . then docker run --env-fil
 
 You need the following ENV VARS GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, WEBHOOK_SECRET, PORT. Your personal access token should have permissions to read and write on the target repository.
 
+## Routes
+Issues list:
+http://127.0.0.1:8000/issues
+Open issues:
+http://127.0.0.1:8000/issues?state=open
+Closed issues: 
+http://127.0.0.1:8000/issues?state=closed
+Specific issue:
+http://127.0.0.1:8000/issues/{number}
+Specific issue comments:
+http://127.0.0.1:8000/issues/{number}/comments
+
+
+
 ## API examples
 
 To create an issue, do this:
