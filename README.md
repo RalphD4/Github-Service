@@ -1,4 +1,6 @@
 # Github-Service
+at https://github.com/RalphD4/Github-Service
+
 
 ## Setup
 
@@ -24,14 +26,14 @@ curl -i http://127.0.0.1:8000/issues
 
 Update your issues:
 ```bash
-curl -i -X PATCH http://127.0.0.1:8000/issues/3 \
+curl -i -X PATCH http://127.0.0.1:8000/issues/[ISSUE NUMBER] \
   -H "Content-Type: application/json" \
   -d '{"state":"[ISSUE CLOSED]"}'
 ```
 
 Add comments:
 ```bash
-curl -i -X POST http://127.0.0.1:8000/issues/3/comments \
+curl -i -X POST http://127.0.0.1:8000/issues/[ISSUE NUMBER]/comments \
   -H "Content-Type: application/json" \
   -d '{"body":"[ISSUE COMMENT]"}'
 ```
