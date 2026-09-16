@@ -148,15 +148,13 @@ def add_issue_comment(number):
         return jsonify({"error": "Error or comment creation"}), status_code
 
 
-
-#still in work
 #edit a specific issue  
 @issues_api.route("/issues/<int:number>", methods=["PATCH"])
 def edit_one_issue(number):
     #receive update
     update_data = request.get_json()
 
-    #check validator for it later
+    #check validator
     if not validate_issue(update_data, "update"):
         print("invalid json")
         return jsonify({"error": "Invalid payload"}), 400
@@ -170,4 +168,3 @@ def edit_one_issue(number):
         return jsonify({"error": "Invalid payload"}), status_code
 
 
-#optional /events route
