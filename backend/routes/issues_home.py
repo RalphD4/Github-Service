@@ -71,7 +71,7 @@ def list_issues():
         for new_github_issue in github_issues:
             issue = {
                 "number": new_github_issue ["number"],
-                "htlml_url": new_github_issue["html_url"],
+                "html_url": new_github_issue["html_url"],
                 "state": new_github_issue["state"],
                 "title": new_github_issue["title"],
                 "body": new_github_issue["body"],
@@ -98,10 +98,10 @@ def get_one_issue(number):
     #behavior based on status code
     if status_code == 200:
 
-        #build response 
+        #build response
         issue = {
             "number": new_github_issue ["number"],
-            "htlml_url": new_github_issue["html_url"],
+            "html_url": new_github_issue["html_url"],
             "state": new_github_issue["state"],
             "title": new_github_issue["title"],
             "body": new_github_issue["body"],
